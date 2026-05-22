@@ -1,0 +1,90 @@
+{
+    "IMDB-BINARY": {
+        "max_degree": 135,
+        "mean": 9.763920783996582,
+        "std": 7.425290584564209,
+        "num_features": 0,
+        "num_classes": 2,
+        "num_graphs": 1000
+    },
+    "IMDB-MULTI": {
+        "max_degree": 88,
+        "mean": 10.142857551574707,
+        "std": 7.999672889709473,
+        "num_features": 0,
+        "num_classes": 3,
+        "num_graphs": 1500
+    },
+    "REDDIT-BINARY": {
+        "max_degree": 3062,
+        "mean": 2.3171448707580566,
+        "std": 20.667634963989258,
+        "num_features": 0,
+        "num_classes": 2,
+        "num_graphs": 2000
+    },
+    "REDDIT-MULTI-5K": {
+        "max_degree": 2011,
+        "mean": 2.3396499156951904,
+        "std": 12.501327514648438,
+        "num_features": 0,
+        "num_classes": 5,
+        "num_graphs": 4999
+    },
+    "PROTEINS": {
+        "max_degree": 25,
+        "mean": 3.728646755218506,
+        "std": 1.1496202945709229,
+        "num_features": 4,
+        "num_classes": 2,
+        "num_graphs": 1113
+    },
+    "MUTAG": {
+        "max_degree": 4,
+        "mean": 2.207653522491455,
+        "std": 0.7446430921554565,
+        "num_features": 7,
+        "num_classes": 2,
+        "num_graphs": 188
+    },
+    "Mutagenicity": {
+        "max_degree": 4,
+        "mean": 2.0654232501983643,
+        "std": 1.1383693218231201,
+        "num_features": 14,
+        "num_classes": 2,
+        "num_graphs": 4337
+    },
+    "NCI1": {
+        "max_degree": 4,
+        "mean": 2.163034439086914,
+        "std": 0.7781422138214111,
+        "num_features": 37,
+        "num_classes": 2,
+        "num_graphs": 4110
+    },
+    "DD": {
+        "max_degree": 19,
+        "mean": 5.034237384796143,
+        "std": 1.685090184211731,
+        "num_features": 89,
+        "num_classes": 2,
+        "num_graphs": 1178
+    },
+    "ENZYMES": {
+        "max_degree": 9,
+        "mean": 3.808560609817505,
+        "std": 1.1474632024765015,
+        "num_features": 21,
+        "num_classes": 6,
+        "num_graphs": 600
+    },
+    "COLLAB": {
+        "max_degree": 491,
+        "mean": 65.97013092041016,
+        "std": 79.23374938964844,
+        "num_features": 0,
+        "num_classes": 3,
+        "num_graphs": 5000
+    }
+}
