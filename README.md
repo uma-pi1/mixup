@@ -1,4 +1,13 @@
-# Graph Mixup
+# Is Graph Mixup Beneficial? Investigating Interpolation And Empirical Performance of Graph Mixup Methods
+
+This is the code for our ICML 2026 paper. We perform the first independent empirical study of mixup for graph classification, including an analysis of empirical performance and interpolation properties.
+
+**Link to paper:** [OpenReview](https://openreview.net/forum?id=KB9z4bnrbD)
+
+## Abstract
+
+Mixup is a widely used data augmentation technique that constructs new training examples by interpolating between existing ones. While simple and effective in domains like vision and language, applying mixup to graph data is non-trivial and there is no independent empirical evidence for its effectiveness. To fill this gap, we conducted an extensive evaluation study following a unified, established evaluation protocol for graph classification. In contrast to prior results, we found that none of the state-of-the-art mixup methods yielded statistically significant improvements over the no-mixup baseline. To obtain further insights, we analyzed the graphs generated from these mixup methods from an interpolation perspective. We found that (i) many mixup methods failed to interpolate well, (ii) high interpolation error led to performance degradation, and (iii) even good interpolation properties did not lead to performance improvements. Our findings question the efficacy of existing graph mixup methods and highlight the need for a more rigorous exploration and evaluation.
+
 
 ## Installation
 
