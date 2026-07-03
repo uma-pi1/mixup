@@ -1,34 +1,54 @@
 # Is Graph Mixup Beneficial? Investigating Interpolation And Empirical Performance of Graph Mixup Methods
 
-This is the code for our ICML 2026 paper. We perform the first independent empirical study of mixup for graph classification, including an analysis of empirical performance and interpolation properties.
+This is the code for our ICML 2026 paper. We perform the first independent
+empirical study of mixup for graph classification, including an analysis of
+empirical performance and interpolation properties.
 
 **Link to paper:** [OpenReview](https://openreview.net/forum?id=KB9z4bnrbD)
 
+**Link to ICML:** [ICML 2026](https://icml.cc/virtual/2026/poster/64758)
+
 ## Abstract
 
-Mixup is a widely used data augmentation technique that constructs new training examples by interpolating between existing ones. While simple and effective in domains like vision and language, applying mixup to graph data is non-trivial and there is no independent empirical evidence for its effectiveness. To fill this gap, we conducted an extensive evaluation study following a unified, established evaluation protocol for graph classification. In contrast to prior results, we found that none of the state-of-the-art mixup methods yielded statistically significant improvements over the no-mixup baseline. To obtain further insights, we analyzed the graphs generated from these mixup methods from an interpolation perspective. We found that (i) many mixup methods failed to interpolate well, (ii) high interpolation error led to performance degradation, and (iii) even good interpolation properties did not lead to performance improvements. Our findings question the efficacy of existing graph mixup methods and highlight the need for a more rigorous exploration and evaluation.
-
+Mixup is a widely used data augmentation technique that constructs new training
+examples by interpolating between existing ones. While simple and effective in
+domains like vision and language, applying mixup to graph data is non-trivial
+and there is no independent empirical evidence for its effectiveness. To fill
+this gap, we conducted an extensive evaluation study following a unified,
+established evaluation protocol for graph classification. In contrast to prior
+results, we found that none of the state-of-the-art mixup methods yielded
+statistically significant improvements over the no-mixup baseline. To obtain
+further insights, we analyzed the graphs generated from these mixup methods from
+an interpolation perspective. We found that (i) many mixup methods failed to
+interpolate well, (ii) high interpolation error led to performance degradation,
+and (iii) even good interpolation properties did not lead to performance
+improvements. Our findings question the efficacy of existing graph mixup methods
+and highlight the need for a more rigorous exploration and evaluation.
 
 ## Installation
 
 **Prerequisites:** Linux (x86_64), Conda, MySQL
 
 Install conda environment:
+
 ```
 conda env create -f environment.yml
 ```
 
 Activate conda environment:
+
 ```
 conda activate graph_mixup
 ```
 
 Additionally install `graph_exporter` module:
+
 ```
 pip install ./graph_exporter
 ```
 
 Create an new user and an empty database in MySQL:
+
 ```
 sudo mysql
 mysql> CREATE DATABASE graphs;
@@ -37,6 +57,7 @@ mysql> GRANT ALL PRIVILEGES on graphs.* TO 'user';
 ```
 
 Store database credentials in `.env`:
+
 ```
 # Graph Database:
 GED_DB_CONNECTION=mysql
@@ -60,13 +81,14 @@ EXPERIMENT_DB_USER=
 EXPERIMENT_DB_PASSWORD=
 ```
 
-
 Store database credentials in `graph_mixup/ged_database/alembic.ini` (line 64):
+
 ```
 sqlalchemy.url = mysql://user:secret@127.0.0.1/graphs
 ```
 
 Run database migrations:
+
 ```
 cd graph_mixup/ged_database/
 alembic upgrade head
@@ -74,11 +96,12 @@ alembic upgrade head
 
 ## Most important modules
 
-### `graph_mixup.import_graphs` 
+### `graph_mixup.import_graphs`
 
 **Purpose:** import vanilla graphs and mixup graphs from (FGW-Mixup and GeoMix)
 
 **Instructions:**
+
 ```
 usage: __main__.py [-h] [--path PATH] --dataset_name {REDDIT-BINARY,REDDIT-MULTI-5K,IMDB-BINARY,IMDB-MULTI,PROTEINS,COLLAB,MUTAG,ENZYMES,NCI1} [--method_name {if_mixup,g_mixup,fgw_mixup,s_mixup,submix,geomix,ged_mixup}] [--sample_edges] [--verbose]
 
@@ -92,6 +115,7 @@ options:
 ```
 
 **Example:** Import `MUTAG` dataset:
+
 ```
 python -m graph_mixup.import_graphs --dataset_name MUTAG
 ```
@@ -101,6 +125,7 @@ python -m graph_mixup.import_graphs --dataset_name MUTAG
 **Purpose:** conduct experiments with main experimental pipeline including HPO
 
 **Instructions:**
+
 ```
 usage: __main__.py [-h] --num_trials NUM_TRIALS --study_timeout STUDY_TIMEOUT [--train_timeout TRAIN_TIMEOUT] [--device DEVICE] [--seed SEED] [--cv_seed CV_SEED]
                    [--num_workers NUM_WORKERS] [--log_dir LOG_DIR] [--data_dir DATA_DIR] [--num_test_rounds NUM_TEST_ROUNDS] [--max_epochs MAX_EPOCHS] --patience PATIENCE
@@ -151,6 +176,7 @@ options:
 ```
 
 **Example:**
+
 ```
 python -m graph_mixup \
                 --num_trials 5 \
@@ -170,14 +196,23 @@ python -m graph_mixup \
 
 **Notes:**
 
-- The results are available in the `experiments` database (using the database and the credentials you specified in `.env`).
-- Before evaluating the baseline, the respective dataset needs to be imported with `graph_mixup.import_graphs`.
+- The results are available in the `experiments` database (using the database
+  and the credentials you specified in `.env`).
+- Before evaluating the baseline, the respective dataset needs to be imported
+  with `graph_mixup.import_graphs`.
 - Before evaluating mixup methods:
-  - If-Mixup or SubMix: graphs need to be generated using either the respective sub-modules in `graph_mixup.mixup_generation`
-  - GeoMix, FGW-Mixup: graphs need to be generated using the authors' modified repos (FGW-Mixup / GeoMix) and then imported using the import module `graph_mixup.import_graphs` while specifying the path to the generated graphs.
-    - Install the respective conda environments using the provided `environment.yml` files inside the repositories.
-    - Manually install the `graph_exporter` module as before (see _Installation_ above).
-    - Example scripts are provided in the respective repos (`generate_graphs.sh`).
+  - If-Mixup or SubMix: graphs need to be generated using either the respective
+    sub-modules in `graph_mixup.mixup_generation`
+  - GeoMix, FGW-Mixup: graphs need to be generated using the authors' modified
+    repos (FGW-Mixup / GeoMix) and then imported using the import module
+    `graph_mixup.import_graphs` while specifying the path to the generated
+    graphs.
+    - Install the respective conda environments using the provided
+      `environment.yml` files inside the repositories.
+    - Manually install the `graph_exporter` module as before (see _Installation_
+      above).
+    - Example scripts are provided in the respective repos
+      (`generate_graphs.sh`).
   - GED-Mixup: use the module `graph_mixup.ged_mixup`
 
 ### `graph_mixup.mixup_generation.*`
@@ -185,6 +220,7 @@ python -m graph_mixup \
 **Purpose:** generate mixup items for: If-Mixup, SubMix
 
 **Instructions:**
+
 ```
 usage: __main__.py [-h] --dataset_name DATASET_NAME [--batch_size BATCH_SIZE] [--max_items_per_pair MAX_ITEMS_PER_PAIR] --max_total MAX_TOTAL [--seed SEED] [--verbose]
                    (--lam LAM | --mixup_alpha MIXUP_ALPHA) [--sample_edges]
@@ -206,6 +242,7 @@ options:
 ```
 
 **Example:**
+
 ```
 python -m graph_mixup.mixup_generation.if_mixup \
                         --dataset_name MUTAG \
@@ -219,6 +256,7 @@ python -m graph_mixup.mixup_generation.if_mixup \
 **Purpose:** compute GEDs for (i) GED-Mixup and (ii) GED-based analyses
 
 **Instructions:**
+
 ```
 usage: __main__.py [-h] --dataset_name DATASET_NAME [--n_cpus N_CPUS] [--timeout TIMEOUT] [--lb_threshold LB_THRESHOLD] [--batch_size BATCH_SIZE]
                    [--method_name METHOD_NAME] [--verbose]
@@ -237,6 +275,7 @@ options:
 ```
 
 **Example:**
+
 ```
 python -m graph_mixup.compute_ged \
         --dataset_name MUTAG \
@@ -249,14 +288,16 @@ python -m graph_mixup.compute_ged \
 **Notes:**
 
 - Requires that the dataset has been imported with `graph_mixup.import_graphs`.
-- If the provided `ged` binary does not work, you may compile it yourself following 
-  the instructions provided [in the respective repo](https://github.com/simon-forb/Graph_Edit_Distance).
+- If the provided `ged` binary does not work, you may compile it yourself
+  following the instructions provided
+  [in the respective repo](https://github.com/simon-forb/Graph_Edit_Distance).
 
 ### `graph_mixup.ged_mixup`
 
 **Purpose:** generate GED-Mixup graphs
 
 **Instructions:**
+
 ```
 usage: __main__.py [-h] --dataset_name DATASET_NAME [--batch_size BATCH_SIZE] [--max_items_per_pair MAX_ITEMS_PER_PAIR] --max_total MAX_TOTAL [--seed SEED] [--verbose]
                    (--lam LAM | --mixup_alpha MIXUP_ALPHA) [--max_fail_count MAX_FAIL_COUNT]
@@ -278,6 +319,7 @@ options:
 ```
 
 **Example:**
+
 ```
 python -m graph_mixup.ged_mixup \
                         --dataset_name MUTAG \
